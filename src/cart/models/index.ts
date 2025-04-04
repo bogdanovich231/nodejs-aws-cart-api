@@ -1,25 +1,39 @@
-export enum CartStatuses {
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
+import { CartItem } from './cartItem';
+
+export enum CartStatus {
   OPEN = 'OPEN',
-  STATUS = 'STATUS',
+  ORDERED = 'ORDERED',
 }
 
-export type Product = {
+@Entity()
+export class Cart {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
-  title: string;
-  description: string;
-  price: number;
-};
 
-export type CartItem = {
-  product: Product;
-  count: number;
-};
-
-export type Cart = {
-  id: string;
+  @Column()
   user_id: string;
-  created_at: number;
-  updated_at: number;
-  status: CartStatuses;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @Column({
+    type: 'enum',
+    enum: CartStatus,
+    default: CartStatus.OPEN,
+  })
+  status: CartStatus;
+
+  @OneToMany(() => CartItem, (item) => item.cart, { cascade: true })
   items: CartItem[];
-};
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { Cart, CartStatuses } from '../models';
+import { Cart, CartStatus } from '../models';
 import { PutCartPayload } from 'src/order/type';
 
 @Injectable()
@@ -12,14 +12,14 @@ export class CartService {
   }
 
   createByUserId(user_id: string): Cart {
-    const timestamp = Date.now();
+    const timestamp = new Date();
 
     const userCart = {
       id: randomUUID(),
       user_id,
       created_at: timestamp,
       updated_at: timestamp,
-      status: CartStatuses.OPEN,
+      status: CartStatus.OPEN,
       items: [],
     };
 
@@ -46,11 +46,19 @@ export class CartService {
     );
 
     if (index === -1) {
-      userCart.items.push(payload);
+      userCart.items.push({
+        ...payload,
+        id: randomUUID(),
+        cart: userCart,
+      });
     } else if (payload.count === 0) {
       userCart.items.splice(index, 1);
     } else {
-      userCart.items[index] = payload;
+      userCart.items[index] = {
+        ...payload,
+        id: userCart.items[index].id,
+        cart: userCart,
+      };
     }
 
     return userCart;
