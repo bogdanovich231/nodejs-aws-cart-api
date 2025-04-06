@@ -3,7 +3,7 @@ import { Order } from '../../order/models/index';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id?: string;
 
   @Column()

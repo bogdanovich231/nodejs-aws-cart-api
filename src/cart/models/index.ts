@@ -35,5 +35,5 @@ export class Cart {
   status: CartStatus;
 
   @OneToMany(() => CartItem, (item) => item.cart, { cascade: true })
-  items: CartItem[];
+  items?: CartItem[];
 }

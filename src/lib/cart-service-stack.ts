@@ -18,14 +18,6 @@ export class CartServiceStack extends cdk.Stack {
       ),
     );
 
-    const dbCreditials = {
-      username: 'postgres',
-      password: '0hlpMp0kalQmlFHIqBIZ',
-      database: 'rsdatabase',
-      host: 'rsdatabase.cfmkgeaa86l4.eu-west-1.rds.amazonaws.com',
-      port: 5432,
-    };
-
     const cartLambda = new lambda.Function(this, 'CartLambda', {
       runtime: lambda.Runtime.NODEJS_20_X,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../dist')),
@@ -34,11 +26,11 @@ export class CartServiceStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30),
       memorySize: 512,
       environment: {
-        DB_HOST: dbCreditials.host,
-        DB_PORT: dbCreditials.port.toString(),
-        DB_USERNAME: dbCreditials.username,
-        DB_PASSWORD: dbCreditials.password,
-        DB_DATABASE: dbCreditials.database,
+        DB_HOST: 'rsdatabase.cfmkgeaa86l4.eu-west-1.rds.amazonaws.com',
+        DB_PORT: '5432',
+        DB_USERNAME: 'postgres',
+        DB_PASSWORD: '0hlpMp0kalQmlFHIqBIZ',
+        DB_NAME: 'rsdatabase',
       },
     });
 

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Cart } from '../../cart/models/index';
 import { User } from '../../users/models/index';
+import { OrderStatus } from '../type';
 
 @Entity()
 export class Order {
@@ -33,7 +34,7 @@ export class Order {
 
   @Column({ type: 'jsonb', default: [] })
   statusHistory: Array<{
-    status: string;
+    status: OrderStatus;
     comment?: string;
     timestamp: number;
   }>;
