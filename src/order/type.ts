@@ -39,4 +39,5 @@ export type CreateOrderPayload = {
   items: Array<{ productId: string; count: number }>;
   address: Address;
   total: number;
+  status?: string;
 };
